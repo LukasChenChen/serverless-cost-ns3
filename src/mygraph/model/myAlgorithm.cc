@@ -5,6 +5,12 @@ Everything in m_afs will be moved into cache because since it can be created,
 memory is enough.
 
 Everything add to m_afs, the priority will be refreshed, the m_clock and m_functionfreq will be refreshed.
+
+deleteLowestPriority change freq
+
+create a probability for each edge node,
+define switching cost and running cost,
+connvert distance to communication cost
 */
 
 
@@ -16,6 +22,7 @@ Everything add to m_afs, the priority will be refreshed, the m_clock and m_funct
 #include "ns3/zipf.h"
 #include "ns3/operation.h"
 #include "ns3/network_controller.h"
+#include <time.h>
 
 namespace ns3 {
   NS_LOG_COMPONENT_DEFINE ("MyAlgorithm");
@@ -399,50 +406,6 @@ void MyAlgorithm::createRequests(){
 }
 
 
-//CREATE serverless requests based on m_req_num
-// void MyAlgorithm::createRequests(){
-
-//     // Generate and output zipf random variables
-    
-
-//     NS_LOG_FUNCTION(this);
-//     m_req_count = 0;
-//     //for different type of requests
-//     for(auto const& typeRequests : m_req_num){
-//         NS_LOG_LOGIC("iterate typeRequests: " << typeRequests.first);
-        
-//         int type = typeRequests.first;
-//         ReqNumMap reqNumMap = typeRequests.second;
-
-//         //time slot start from 1
-//         // for(int i = 1; i <= reqNumMap.size(); i++){
-//         for(int i = 1; i <= 1; i++){
-
-//                 auto it = reqNumMap.find(i);
-//                 if(it == reqNumMap.end()){
-//                     NS_LOG_ERROR(" createRequests breaks!!!");
-//                     break;
-//                 }
-
-//                 int totalReqNum = it->second;
-                
-//                 //number of nodes, beta, and max mum
-//                 //get the number of requests for each node
-//                 std::map<int, int> req_map = genZipfNum(m_map.size(), m_cfg.Beta, totalReqNum/(m_map.size()));
-
-//                 // std::map<int, int> req_map = genZipfNum(125, 0.5, 519);
-                
-//                 NS_LOG_LOGIC(" createRequest---------");
-//                 //create request for  this time slot
-//                 createRequestInSlot(i, typeRequests.first, req_map);
-//         }
-        
-
-//     }
-
-
-// }
-
 //read the request from the file, reduce by the factor
 void MyAlgorithm::readRequests(){
     // std::map<int, int> req_map = genZipfNum(125, 0.5, 519);
@@ -587,6 +550,10 @@ void MyAlgorithm::placeToNeighbour(Request &r, Function function, int index, int
     //put the function in active list
     m_afs.add(function, phyNodeID, m_functionfreq, m_clock);
 
+    m_topo.addFreq(phyNodeID, function.type);
+
+    m_topo.setRecency(phyNodeID, function.type, (float)r.arriveTime );
+
     //remove from cacheMap
     m_cm.remove(phyNodeID, index, m_functionfreq);
 
@@ -660,6 +627,10 @@ void MyAlgorithm::createToCurrent(Request &r){
 
                     m_afs.add(r.function, r.ingress.id, m_functionfreq, m_clock);
 
+                    m_topo.addFreq(r.ingress.id, r.function.type);
+
+                    m_topo.setRecency(r.ingress.id, r.function.type, (float)r.arriveTime );
+
                     m_topo.update("minus", r.ingress.id, f.size);
 
                     r.update(r.function, r.ingress, true);
@@ -690,6 +661,10 @@ void MyAlgorithm::createToCurrent(Request &r){
         
         m_afs.add(r.function, r.ingress.id, m_functionfreq, m_clock);
 
+        m_topo.addFreq(r.ingress.id, r.function.type);
+
+        m_topo.setRecency(r.ingress.id, r.function.type, (float)r.arriveTime );
+
         m_topo.update("minus", r.ingress.id, r.function.size);
 
         r.update(r.function, r.ingress, true);
@@ -701,9 +676,13 @@ void MyAlgorithm::createToCurrent(Request &r){
 void MyAlgorithm::placeToCurrent(Request &r, Function f, int index){
     NS_LOG_FUNCTION(this);
     //update the freq
-    f.activePriority(m_clock, m_functionfreq);
+    // f.activePriority(m_clock, m_functionfreq);
 
     m_afs.add(f, r.ingress.id, m_functionfreq, m_clock);
+
+    m_topo.addFreq(r.ingress.id, f.type);
+
+    m_topo.setRecency(r.ingress.id, f.type, (float)r.arriveTime );
 
     m_cm.remove(r.ingress.id, index, m_functionfreq);
 
@@ -753,9 +732,78 @@ void MyAlgorithm::updateCache(){
     m_afs.clear();
 
     m_cm.sort();
+}
 
 
 
+//get 
+int MyAlgorithm::getContainerSize(int funcType){
+    return m_funcInfoMap.getSize(funcType);
+}
+
+// get the probability of type n container in edge node p
+float MyAlgorithm::getProb(int nodeID, int funcType){
+    PhyNode p = m_topo.get(nodeID);
+
+    float freq   = p.getFreq(funcType);
+    float recen = p.getRecency(funcType); // the last  time a function is called
+
+    int size = getContainerSize(funcType);
+
+    if(freq == 0 || recen == 0 || size == 0){
+        NS_LOG_ERROR("cannot find prob for funcType " << funcType << "at node "<< nodeID);
+        return 0;
+    }
+
+    return float(size)/(freq+recen);
+}
+
+// get the contaner type to be evicted
+int MyAlgorithm::getEvictedContainer(int nodeID){
+    NS_LOG_FUNCTION(this);
+    //get all the probabilities, roll a number to decide
+    //function level
+
+    //create a map to store probability.
+    std::map<int, float> probMap;
+
+    float total_prob = 0;
+
+    for(auto it = m_funcInfoMap.funcMap.begin(); it != m_funcInfoMap.funcMap.end(); it++){
+        int funcType = it->first;
+        float prob = getProb(nodeID, funcType);
+        probMap.insert({funcType, prob});
+        total_prob += prob;
+    }
+    //calculate the probability
+    for(auto it = probMap.begin(); it != probMap.end(); it++){
+        int funcType = it->first;
+        float prob = it->second;
+        prob = prob/total_prob;
+        probMap[funcType] = prob;
+    }
+
+    //random the seed
+    time_t t;
+    srand((unsigned) time(&t));
+
+    //random a number between 0 - 100;
+    int val = rand() % 100;
+    NS_LOG_INFO("random number is " << val);
+    float accum_prob = 0;
+    for(auto it = probMap.begin(); it != probMap.end(); it++){
+        int funcType = it->first;
+        float prob = it->second;
+        //see which interval is the probablity
+        accum_prob += prob;
+        if((float)val < (accum_prob * 100)){
+            NS_LOG_INFO("val " << val << " prob " << accum_prob*100 << " evict type " << funcType);
+            return funcType;
+        }
+    }
+    NS_LOG_ERROR("cannot find a function to evict");
+    return 0;
+    
 }
 
 void MyAlgorithm::deployRequests(){

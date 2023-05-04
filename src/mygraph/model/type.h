@@ -57,6 +57,62 @@ struct PhyNode{
     float   latitude;
     float   longitude;
     float   mem;
+    std::map<int, float> funcFreq;  //<functype, freq>
+    std::map<int, float> recency;  //<functype, time>
+
+    float getFreq(int funcType){
+        if(funcFreq.find(funcType) == funcFreq.end()){
+            return 0;
+        }else{
+            float freq = funcFreq[funcType];
+            return freq;
+        }
+    }
+
+     float getRecency(int funcType){
+        if(recency.find(funcType) == recency.end()){
+            return 0;
+        }else{
+            float recen = recency[funcType];
+            return recen;
+        }
+    }
+
+    void setRecency(int funcType, float recen){
+        if(recency.find(funcType) == recency.end()){
+            return;
+        }else{
+            recency[funcType] = recen;
+            return;
+        }
+    }
+
+    void setFreq(int funcType, float freq){
+        if(funcFreq.find(funcType) == funcFreq.end()){
+            return;
+        }else{
+            funcFreq[funcType] = freq;
+            return;
+        }
+    }
+
+    void addFreq(int funcType){
+        if(funcFreq.find(funcType) == funcFreq.end()){
+            return;
+        }else{
+            funcFreq[funcType] += 1;
+            return;
+        }
+    }
+
+    void minusFreq(int funcType){
+        if(funcFreq.find(funcType) == funcFreq.end()){
+            return;
+        }else{
+            funcFreq[funcType] -= 1;
+            return;
+        }
+    }
 };
 
 struct Function{
@@ -66,22 +122,23 @@ struct Function{
     float   size;
     float   coldStartTime;
     float   processingTime;
+    
     float   clock =0;
     float   priority = 0;
     PhyNode phyNode; //deployed node
     int     lifeTime;
     int     lastUseTime = 0; // the function last time being used.
 
-    void activePriority(float m_clock, FunctionFreq &m_functionfreq){
-        int freq = m_functionfreq.get(type);
-        clock = m_clock;
-        priority = clock + ((float)freq + coldStartTime)/(size/1000);
-    }
+    // void activePriority(float m_clock, FunctionFreq &m_functionfreq){
+    //     int freq = m_functionfreq.get(type);
+    //     clock = m_clock;
+    //     priority = clock + ((float)freq + coldStartTime)/(size/1000);
+    // }
 
-    void cachePriority(FunctionFreq m_functionfreq){
-        int freq = m_functionfreq.get(type);
-        priority = clock + ((float)freq + coldStartTime)/(size/1000);
-    }
+    // void cachePriority(FunctionFreq m_functionfreq){
+    //     int freq = m_functionfreq.get(type);
+    //     priority = clock + ((float)freq + coldStartTime)/(size/1000);
+    // }
 
     void minusLife(){
         lifeTime = lifeTime - 1;
@@ -119,6 +176,17 @@ struct FunctionInfoMap{
             fi = funcMap[funcType];
             return true;
         }
+    }
+
+    int getSize(int funcType){
+
+        if(funcMap.find(funcType) == funcMap.end()){
+            return 0;
+        }else{
+            auto fi = funcMap[funcType];
+            return fi.size;
+        }
+
     }
 };
 
@@ -319,6 +387,66 @@ struct DistSlice{
     }
 };
 
+struct Topology {
+   std::map<int, PhyNode> m; //<nodeid, phynode>
+
+   PhyNode get(int phyNodeID){
+       auto it = m.find(phyNodeID);
+       PhyNode p;
+       p.id = 0;
+       if(it == m.end()){
+           //cannot find the node
+           return p;
+       }else{
+           return it->second;
+       }  
+   }
+
+   void add(int phyNodeID, PhyNode p){
+
+       m.insert({phyNodeID, p});
+
+   }
+
+   void update(std::string operation, int &phyNodeID, float size){
+
+       if (operation == "add"){
+           m[phyNodeID].mem = m[phyNodeID].mem + size;
+       }else if(operation == "minus"){
+           m[phyNodeID].mem = m[phyNodeID].mem - size;
+       }
+
+   }
+
+   int size(){
+       return m.size();
+   }
+
+   void addFreq(int phyNodeID, int funcType){
+
+       PhyNode p = get(phyNodeID);
+       p.addFreq(funcType);
+
+       m[phyNodeID] = p;
+   }
+
+   void minusFreq(int phyNodeID, int funcType){
+
+       PhyNode p = get(phyNodeID);
+       p.minusFreq(funcType);
+
+       m[phyNodeID] = p;
+   }
+
+   void setRecency(int phyNodeID, int funcType, float recen){
+
+       PhyNode p = get(phyNodeID);
+       p.setRecency(funcType, recen);
+
+       m[phyNodeID] = p;
+   }
+};
+
 struct Cache{
     int phyNodeID;
     std::vector<Function> functionList; //a list of functions, actually containers
@@ -357,6 +485,17 @@ struct Cache{
     //ascending order
     void sortlistUseTime(){
         std::sort(functionList.begin(), functionList.end(), [](Function &a, Function &b){return a.lastUseTime<b.lastUseTime;});
+    }
+    //remove a particular type 
+    void removeType(int funcType){
+
+        for(auto it = functionList.begin(); it != functionList.end(); it++){
+            if((*it).type == funcType){
+                functionList.erase(it);
+                return;
+            }
+        }
+
     }
 };
 
@@ -523,6 +662,26 @@ struct CacheMap {
 
     }
 
+    //delete a container based on the probability
+    bool deleteProb(int phyNodeID, int funcType, Topology &m_topo){
+        Cache c = get(phyNodeID);
+
+        if(c.size() > 0){
+            c.removeType(funcType);
+
+            caches[phyNodeID] = c;
+
+            //reduce the freq in topo
+            m_topo.minusFreq(phyNodeID, funcType);
+            
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
 };
 
 struct Functions{
@@ -573,15 +732,15 @@ struct NodeFunctions {
 
 struct ActiveFunctions {
     std::map<int, NodeFunctions> m; //<phynodeid, functionsmap>
-
-    void add(Function f, int phynodeID, FunctionFreq m_functionfreq, int m_clock){
+    //update the frequency and recency.
+    void add(Function f, int phynodeID, FunctionFreq &m_functionfreq, int m_clock){
 
         auto it = m.find(phynodeID);
 
         m_functionfreq.add(f.type);
-
-        f.activePriority(m_clock, m_functionfreq);
-
+        
+        
+        //add to the function
         if (it == m.end()){
             NodeFunctions nfs;
             nfs.add(f);
@@ -601,42 +760,7 @@ struct ActiveFunctions {
     void clear(){
         m.clear();
     }
-};
 
-struct Topology {
-   std::map<int, PhyNode> m; //<nodeid, phynode>
-
-   PhyNode get(int phyNodeID){
-       auto it = m.find(phyNodeID);
-       PhyNode p;
-       p.id = 0;
-       if(it == m.end()){
-           //cannot find the node
-           return p;
-       }else{
-           return it->second;
-       }  
-   }
-
-   void add(int phyNodeID, PhyNode p){
-
-       m.insert({phyNodeID, p});
-
-   }
-
-   void update(std::string operation, int &phyNodeID, float size){
-
-       if (operation == "add"){
-           m[phyNodeID].mem = m[phyNodeID].mem + size;
-       }else if(operation == "minus"){
-           m[phyNodeID].mem = m[phyNodeID].mem - size;
-       }
-
-   }
-
-   int size(){
-       return m.size();
-   }
 };
 
 

@@ -62,6 +62,12 @@ public:
 
   void genTraffic(int time_slot, int time_slot_num);
 
+  int getContainerSize(int funcType);
+
+  float getProb(int nodeID, int funcType);
+
+  int getEvictedContainer(int nodeID);
+
   ServerlessConfig m_cfg;
 
   
