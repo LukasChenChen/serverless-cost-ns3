@@ -43,7 +43,7 @@ namespace ns3 {
     // int inter_latency, intra_latency, inter_bw, intra_bw, domain_num, processing_cap;
 
     std::string TopoName, RequestFile;
-    float LatencyPara, MemCap, Beta, ReduFactor;
+    float CommCostPara, MemCap, Beta, ReduFactor, Alpha;
     int NodeNum, SlotNum;
 
     NS_LOG_INFO("-----read config-----");
@@ -73,10 +73,10 @@ namespace ns3 {
                 RequestFile = line.substr(pos+1);
                 std::cout<< "RequestFile " << RequestFile << std::endl;
             }
-            else if (tmp_key == "LatencyPara")
+            else if (tmp_key == "CommCostPara")
             {
-                LatencyPara = stof(line.substr(pos+1));
-                std::cout<< "LatencyPara " << LatencyPara << std::endl;
+                CommCostPara = stof(line.substr(pos+1));
+                std::cout<< "CommCostPara " << CommCostPara << std::endl;
             }
             else if (tmp_key == "MemCap")
             {
@@ -104,6 +104,12 @@ namespace ns3 {
                 std::cout<< "ReduFactor " << ReduFactor << std::endl;
                 break;
             }
+             else if (tmp_key == "Alpha")
+            {
+                Alpha = stof(line.substr(pos+1));
+                std::cout<< "Alpha " << Alpha << std::endl;
+                break;
+            }
            
         
         
@@ -123,12 +129,13 @@ namespace ns3 {
     
     m_cfg.TopoName = TopoName;
     m_cfg.RequestFile = RequestFile;
-    m_cfg.LatencyPara = LatencyPara;
+    m_cfg.CommCostPara = CommCostPara;
     m_cfg.MemCap = MemCap;
     m_cfg.NodeNum = NodeNum;
     m_cfg.Beta =Beta;
     m_cfg.SlotNum =SlotNum;
     m_cfg.ReduFactor =ReduFactor;
+    m_cfg.Alpha =Alpha;
     
     
     return true;
@@ -571,10 +578,15 @@ bool MyAlgorithm::deployToNeighbour(DistSlice ds, Request &r){
     NS_LOG_FUNCTION(this);
     
     bool succFlag = false;
-
+   
     //ingore the first node, it is the current node.
     for(int j = 1; j < ds.size(); j++){
-        if(ds.vec[j].distance * m_cfg.LatencyPara < r.function.coldStartTime){
+
+        int nodeID = ds.vec[j].getID();
+
+        float instanCost = getInstanCost( nodeID , r.function.type);
+
+        if(ds.vec[j].distance * m_cfg.CommCostPara < instanCost){
 
             int index = -1;
 
@@ -605,49 +617,41 @@ void MyAlgorithm::createToCurrent(Request &r){
         //clear the cache map
         while (count < 1000) {
             count++;
+            //get a container to be evicted
+            int funcType = getEvictedContainer(r.ingress.id);
 
-            float p2 = m_cm.getLowestPriority(r.ingress.id);
+            m_cm.deleteProb(r.ingress.id, funcType, m_topo);
+           
+            m_topo.update("add", r.ingress.id, f.size);
+            
+            
+            //keep check the memory, if sufficient
+            if (r.function.size <= m_topo.get(r.ingress.id).mem){
 
-            if (p2 < r.function.priority){
-                succFlag = m_cm.deleteLowestPriority(r.ingress.id, f, m_functionfreq);
-
-                if(succFlag == true){
-                    //if success terminate the container
-                   //TODO: terminate(f); end the traffic application
-
-                    m_topo.update("add", r.ingress.id, f.size);
-                }
+              
                 
-                //keep check the memory, if sufficient
-                if (r.function.size <= m_topo.get(r.ingress.id).mem){
+                r.function.phyNode = r.ingress;
 
-                    //create containers TODO:
-                    
-                    r.function.phyNode = r.ingress;
+                m_afs.add(r.function, r.ingress.id, m_functionfreq, m_clock);
 
-                    m_afs.add(r.function, r.ingress.id, m_functionfreq, m_clock);
+                m_topo.addFreq(r.ingress.id, r.function.type);
 
-                    m_topo.addFreq(r.ingress.id, r.function.type);
+                m_topo.setRecency(r.ingress.id, r.function.type, (float)r.arriveTime );
 
-                    m_topo.setRecency(r.ingress.id, r.function.type, (float)r.arriveTime );
+                m_topo.update("minus", r.ingress.id, f.size);
 
-                    m_topo.update("minus", r.ingress.id, f.size);
+                r.update(r.function, r.ingress, true);
 
-                    r.update(r.function, r.ingress, true);
+                return;
 
-                    return;
+            }
+            //no space to delete
+            if (succFlag == false){
 
-                }
-                //no space to delete
-                if (succFlag == false){
-
-                    return;
-                }
-            }//end if
-            else{
-                //priority too low, just leave it.
                 return;
             }
+           
+           
 
         }//end while
     }//end if
@@ -755,7 +759,7 @@ float MyAlgorithm::getProb(int nodeID, int funcType){
         return 0;
     }
 
-    return float(size)/(freq+recen);
+    return (float)size/(freq+recen);
 }
 
 // get the contaner type to be evicted
@@ -848,12 +852,58 @@ void MyAlgorithm::init(){
     m_req_count = 0; //count to create request
 }
 
+//get the cpu frequency of certain physical node
+float MyAlgorithm::getCPU(int phyNodeID){
+    PhyNode p = m_topo.get(phyNodeID);
+    if(p.id == 0){
+        //cannot find this one
+        return 0;
+    }else{
+        return p.cpuFreq;
+    }
+}
+//get the instantion cost of a function
+float MyAlgorithm::getInstanCost(int phyNodeID, int funcType){
+    float cpuFreq = getCPU(phyNodeID);
+
+    int size = getContainerSize(funcType);
+
+    float instanCost = (float)size/cpuFreq;
+
+    if(cpuFreq == 0){
+        return 0;
+    }
+
+    return instanCost;
+}
+//get the running cost
+float MyAlgorithm::getRunCost(int phyNodeID, int funcType){
+    float cpuFreq = getCPU(phyNodeID);
+
+    int size = getContainerSize(funcType);
+
+    float runCost = (float)size*cpuFreq*m_cfg.Alpha;
+
+    if(cpuFreq == 0){
+        return 0;
+    }
+
+    return runCost;
+}
+
 void MyAlgorithm::printResult(std::string filename){
     NS_LOG_FUNCTION(this);
     //result [time slot, id, type, linkdelay, processingdelay, coldstartdelay, iscoldstart, total delay]
     std::vector<float> result;
-    float totalDelay = 0;
-    float avg_delay = 0;
+    float singleCost = 0; // total cost for a request
+    float avg_cost = 0;
+
+    float instanCost = 0;
+    float runCost = 0;
+    float commCost = 0;
+    float totalCommCost = 0;
+    float totalInstanCost = 0;
+    float totalRunCost = 0;
 
 
     for(int i=1; i<= m_request_map.size(); i++){
@@ -876,21 +926,29 @@ void MyAlgorithm::printResult(std::string filename){
 
                 result.push_back(float((*it).function.type));
 
-                float linkDelay = distance((*it).ingress.id, (*it).deployNode.id)/1000;
+                float dist = distance((*it).ingress.id, (*it).deployNode.id)/1000;
 
-                result.push_back(linkDelay);
+                commCost = dist * m_cfg.CommCostPara;
 
-                (*it).calcLinkDelay(linkDelay);
+                totalCommCost += commCost;
 
-                totalDelay += totalDelay;
-                //conver ms to s
-                result.push_back((*it).function.processingTime/1000);
-                totalDelay += (*it).function.processingTime/1000;
+                result.push_back(commCost);
+
+                singleCost += commCost;
+
+                runCost = getRunCost((*it).deployNode.id, (*it).function.type);
+                result.push_back(runCost);
+                singleCost += runCost;
+
+                totalRunCost += runCost;
 
                 if((*it).isColdStart == true){
-                    result.push_back((*it).function.coldStartTime);
+                    instanCost = getInstanCost((*it).deployNode.id, (*it).function.type);
+                    result.push_back(instanCost);
                     result.push_back(1.0);
-                    totalDelay += (*it).function.coldStartTime;
+                    singleCost += instanCost;
+
+                    totalInstanCost += instanCost;
 
                     m_cold_req_num++;
 
@@ -899,11 +957,11 @@ void MyAlgorithm::printResult(std::string filename){
                     result.push_back(0.0);
                     result.push_back(0.0);
                 }
-                result.push_back(totalDelay);
-                avg_delay += totalDelay;
+                result.push_back(singleCost);
+                avg_cost += singleCost;
                 write_vector_file(filename, result);
                 result.clear();
-                totalDelay = 0;
+                singleCost = 0;//total cost for one request
             }
         }
     }//end for
@@ -916,8 +974,13 @@ void MyAlgorithm::printResult(std::string filename){
     numbers.push_back(float(m_total_req_num));
     float coldstartfreq = float(m_cold_req_num)/float(m_served_req_num);
     numbers.push_back(coldstartfreq);
-    avg_delay = float(avg_delay)/float(m_served_req_num);
-    numbers.push_back(avg_delay);
+    avg_cost = float(avg_cost)/float(m_served_req_num);
+    
+    numbers.push_back(totalCommCost/m_served_req_num);
+    numbers.push_back(totalInstanCost/m_served_req_num);
+    numbers.push_back(totalRunCost/m_served_req_num);
+
+    numbers.push_back(avg_cost);
     write_vector_file(filename, numbers);
     
 

@@ -68,6 +68,12 @@ public:
 
   int getEvictedContainer(int nodeID);
 
+  float getCPU(int phyNodeID);
+
+  float getInstanCost(int phyNodeID, int funcType);
+
+  float getRunCost(int phyNodeID, int funcType);
+
   ServerlessConfig m_cfg;
 
   

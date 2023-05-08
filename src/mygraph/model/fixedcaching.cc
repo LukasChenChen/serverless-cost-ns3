@@ -39,7 +39,7 @@ namespace ns3 {
     // int inter_latency, intra_latency, inter_bw, intra_bw, domain_num, processing_cap;
 
     std::string TopoName, RequestFile;
-    float LatencyPara, MemCap, Beta, ReduFactor;
+    float CommCostPara, MemCap, Beta, ReduFactor, Alpha;
     int NodeNum, SlotNum;
 
     NS_LOG_INFO("-----read config-----");
@@ -69,10 +69,10 @@ namespace ns3 {
                 RequestFile = line.substr(pos+1);
                 std::cout<< "RequestFile " << RequestFile << std::endl;
             }
-            else if (tmp_key == "LatencyPara")
+            else if (tmp_key == "CommCostPara")
             {
-                LatencyPara = stof(line.substr(pos+1));
-                std::cout<< "LatencyPara " << LatencyPara << std::endl;
+                CommCostPara = stof(line.substr(pos+1));
+                std::cout<< "CommCostPara " << CommCostPara << std::endl;
             }
             else if (tmp_key == "MemCap")
             {
@@ -99,6 +99,12 @@ namespace ns3 {
                 ReduFactor = stof(line.substr(pos+1));
                 std::cout<< "ReduFactor " << ReduFactor << std::endl;
                 break;
+            } 
+            else if (tmp_key == "Alpha")
+            {
+                Alpha = stof(line.substr(pos+1));
+                std::cout<< "Alpha " << Alpha << std::endl;
+                break;
             }
            
         
@@ -119,13 +125,13 @@ namespace ns3 {
     
     m_cfg.TopoName = TopoName;
     m_cfg.RequestFile = RequestFile;
-    m_cfg.LatencyPara = LatencyPara;
+    m_cfg.CommCostPara = CommCostPara;
     m_cfg.MemCap = MemCap;
     m_cfg.NodeNum = NodeNum;
     m_cfg.Beta =Beta;
     m_cfg.SlotNum =SlotNum;
     m_cfg.ReduFactor =ReduFactor;
-    
+    m_cfg.Alpha =Alpha;
     
     return true;
 
@@ -562,14 +568,51 @@ void FixedCaching::placeToNeighbour(Request &r, Function function, int index, in
 
 }
 
+//get 
+int FixedCaching::getContainerSize(int funcType){
+    return m_funcInfoMap.getSize(funcType);
+}
+
+//get the cpu frequency of certain physical node
+float FixedCaching::getCPU(int phyNodeID){
+    PhyNode p = m_topo.get(phyNodeID);
+    if(p.id == 0){
+        //cannot find this one
+        return 0;
+    }else{
+        return p.cpuFreq;
+    }
+}
+
+
+//get the instantion cost of a function
+float FixedCaching::getInstanCost(int phyNodeID, int funcType){
+    float cpuFreq = getCPU(phyNodeID);
+
+    int size = getContainerSize(funcType);
+
+    float instanCost = (float)size/cpuFreq;
+
+    if(cpuFreq == 0){
+        return 0;
+    }
+
+    return instanCost;
+}
+
 bool FixedCaching::deployToNeighbour(DistSlice ds, Request &r){
     NS_LOG_FUNCTION(this);
     
     bool succFlag = false;
-
+   
     //ingore the first node, it is the current node.
     for(int j = 1; j < ds.size(); j++){
-        if(ds.vec[j].distance * m_cfg.LatencyPara < r.function.coldStartTime){
+
+        int nodeID = ds.vec[j].getID();
+
+        float instanCost = getInstanCost( nodeID , r.function.type);
+
+        if(ds.vec[j].distance * m_cfg.CommCostPara < instanCost){
 
             int index = -1;
 
@@ -589,6 +632,7 @@ bool FixedCaching::deployToNeighbour(DistSlice ds, Request &r){
     
     return succFlag;
 }
+
 //no need to change because it always kill the one with lowest lifetime,
 //just modify the method getlowestprioirty in types.h
 void FixedCaching::createToCurrent(Request &r){

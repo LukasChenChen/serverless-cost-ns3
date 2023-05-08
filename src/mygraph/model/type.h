@@ -57,6 +57,7 @@ struct PhyNode{
     float   latitude;
     float   longitude;
     float   mem;
+    float   cpuFreq;
     std::map<int, float> funcFreq;  //<functype, freq>
     std::map<int, float> recency;  //<functype, time>
 
@@ -194,12 +195,13 @@ struct FunctionInfoMap{
 struct ServerlessConfig {
     std::string TopoName;
     std::string RequestFile;
-    float       LatencyPara;
+    float       CommCostPara; //parameter for communication cost
     float       MemCap;
     int         NodeNum;
     float       Beta;
     int         SlotNum;
     float       ReduFactor;
+    float       Alpha;  // alpha parameter for running cost.
 };
 
 struct Location{

@@ -55,7 +55,7 @@ void write_result_title(std::string filename){
     outfile.open(filename, std::ofstream::app);//append mode
 
 
-    outfile <<"coldNum"<< ","<< "servedNum"<< ","<< "totalNum"<< "," <<"coldfreq"<< ","<<"avgdelay"<<std::endl;
+    outfile <<"coldNum"<< ","<< "servedNum"<< ","<< "totalNum"<< "," <<"coldfreq"<< ","<<"avgcommcost"<< "," << "avginstancost"<< "," << "avgruncost"<<","<<"avgcost"<<std::endl;
 
     outfile.close();
 

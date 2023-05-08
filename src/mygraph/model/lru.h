@@ -62,6 +62,12 @@ public:
 
   void genTraffic(int time_slot, int time_slot_num);
 
+  float getCPU(int phyNodeID);
+
+  int getContainerSize(int funcType);
+
+  float getInstanCost(int phyNodeID, int funcType);
+
   ServerlessConfig m_cfg;
 
   
