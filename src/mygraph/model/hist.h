@@ -68,6 +68,8 @@ public:
 
   int getContainerSize(int funcType);
 
+  float getRunCost(int phyNodeID, int funcType);
+
   ServerlessConfig m_cfg;
 
   
