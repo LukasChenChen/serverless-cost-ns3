@@ -43,7 +43,7 @@ namespace ns3 {
     // int inter_latency, intra_latency, inter_bw, intra_bw, domain_num, processing_cap;
 
     std::string TopoName, RequestFile;
-    float CommCostPara, MemCap, Beta, ReduFactor, Alpha;
+    float CommCostPara, MemCap, Beta, ReduFactor, Alpha, cpuFreq;
     int NodeNum, SlotNum;
 
     NS_LOG_INFO("-----read config-----");
@@ -110,6 +110,12 @@ namespace ns3 {
                 std::cout<< "Alpha " << Alpha << std::endl;
                 break;
             }
+            else if (tmp_key == "cpuFreq")
+            {
+                cpuFreq = stof(line.substr(pos+1));
+                std::cout<< "cpuFreq " << cpuFreq << std::endl;
+                break;
+            }
            
         
         
@@ -136,6 +142,7 @@ namespace ns3 {
     m_cfg.SlotNum =SlotNum;
     m_cfg.ReduFactor =ReduFactor;
     m_cfg.Alpha =Alpha;
+    m_cfg.cpuFreq =cpuFreq;
     
     
     return true;
@@ -224,6 +231,7 @@ void MyAlgorithm::loadTopo(){
                 latitude, //latitude
                 longitude, //longitude
                 m_cfg.MemCap, //mem
+                m_cfg.cpuFreq,
             };
 
             m_topo.add(nodeID, f);
@@ -621,8 +629,10 @@ void MyAlgorithm::createToCurrent(Request &r){
             int funcType = getEvictedContainer(r.ingress.id);
 
             m_cm.deleteProb(r.ingress.id, funcType, m_topo);
+
+            int functionSize = getContainerSize(funcType);
            
-            m_topo.update("add", r.ingress.id, f.size);
+            m_topo.update("add", r.ingress.id, functionSize);
             
             
             //keep check the memory, if sufficient
@@ -787,9 +797,6 @@ int MyAlgorithm::getEvictedContainer(int nodeID){
         probMap[funcType] = prob;
     }
 
-    //random the seed
-    time_t t;
-    srand((unsigned) time(&t));
 
     //random a number between 0 - 100;
     int val = rand() % 100;
@@ -812,6 +819,10 @@ int MyAlgorithm::getEvictedContainer(int nodeID){
 
 void MyAlgorithm::deployRequests(){
     NS_LOG_FUNCTION(this);
+
+    //random the seed
+    
+    srand((unsigned) time(NULL));
 
     //iterate over time slot
     for(int i=1; i<= m_request_map.size(); i++){

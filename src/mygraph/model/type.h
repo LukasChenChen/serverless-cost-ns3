@@ -63,7 +63,8 @@ struct PhyNode{
 
     float getFreq(int funcType){
         if(funcFreq.find(funcType) == funcFreq.end()){
-            return 0;
+            funcFreq.insert({funcType, 1});
+            return 1;
         }else{
             float freq = funcFreq[funcType];
             return freq;
@@ -72,7 +73,8 @@ struct PhyNode{
 
      float getRecency(int funcType){
         if(recency.find(funcType) == recency.end()){
-            return 0;
+            recency.insert({funcType,1});
+            return 1;
         }else{
             float recen = recency[funcType];
             return recen;
@@ -202,6 +204,7 @@ struct ServerlessConfig {
     int         SlotNum;
     float       ReduFactor;
     float       Alpha;  // alpha parameter for running cost.
+    float       cpuFreq;
 };
 
 struct Location{
