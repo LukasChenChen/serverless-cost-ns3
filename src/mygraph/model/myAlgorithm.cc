@@ -582,7 +582,7 @@ void MyAlgorithm::placeToNeighbour(Request &r, Function function, int index, int
 
 bool MyAlgorithm::deployToNeighbour(DistSlice ds, Request &r){
     NS_LOG_FUNCTION(this);
-    NS_LOG_ERROR("place to neighbour");
+    // NS_LOG_ERROR("place to neighbour");
     bool succFlag = false;
    
     //ingore the first node, it is the current node.
@@ -631,12 +631,16 @@ void MyAlgorithm::createToCurrent(Request &r){
             //get a container to be evicted
             int funcType = getEvictedContainer(r.ingress.id);
 
-            m_cm.deleteProb(r.ingress.id, funcType, m_topo);
+            succFlag = m_cm.deleteProb(r.ingress.id, funcType, m_topo);
 
             int functionSize = getContainerSize(funcType);
-           
-            m_topo.update("add", r.ingress.id, functionSize);
+
+            if(succFlag == true){
+
             
+           
+                m_topo.update("add", r.ingress.id, functionSize);
+            }
             
             //keep check the memory, if sufficient
             if (r.function.size <= m_topo.get(r.ingress.id).mem){
@@ -670,10 +674,7 @@ void MyAlgorithm::createToCurrent(Request &r){
     }//end if
     else{
         //space sufficient
-        //create containers TODO:
-
-        //TODO: DO priority?
-
+       
         r.function.phyNode = r.ingress;
         
         m_afs.add(r.function, r.ingress.id, m_functionfreq, m_clock);
