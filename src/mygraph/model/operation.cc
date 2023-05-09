@@ -44,7 +44,7 @@ void write_time(std::string filename){
 
     outfile <<std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X") << std::endl;
      //result [id, linkdelay, processingdelay, coldstartdelay, iscoldstart, total delay]
-    outfile <<"timeslot" << ","<< "id"<<","<<"type" <<"," <<"linkdelay"<<","<<"pdelay"<<","<<"cdelay"<<","<<"iscold"<<","<<"totaldelay"<<std::endl;
+    outfile <<"timeslot" << ","<< "id"<<","<<"type" <<"," <<"commCost"<<","<<"runCost"<<","<<"InstanCost"<<","<<"iscold"<<","<<"singleCost"<<std::endl;
 
     outfile.close();
 }

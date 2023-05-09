@@ -34,7 +34,7 @@ main (int argc, char *argv[])
 
    cmd.Parse (argc, argv);
 
-   LogComponentEnable ("MyAlgorithm", LOG_LEVEL_INFO);
+   LogComponentEnable ("MyAlgorithm", LOG_LEVEL_ERROR);
    LogComponentEnable ("Zipf", LOG_LEVEL_ERROR);
    LogComponentEnable ("network_controller", LOG_LEVEL_ERROR);
    LogComponentEnable ("serverless_server", LOG_LEVEL_ERROR);

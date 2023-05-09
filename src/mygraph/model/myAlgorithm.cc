@@ -102,13 +102,11 @@ namespace ns3 {
             {
                 ReduFactor = stof(line.substr(pos+1));
                 std::cout<< "ReduFactor " << ReduFactor << std::endl;
-                break;
             }
-             else if (tmp_key == "Alpha")
+            else if (tmp_key == "Alpha")
             {
                 Alpha = stof(line.substr(pos+1));
                 std::cout<< "Alpha " << Alpha << std::endl;
-                break;
             }
             else if (tmp_key == "cpuFreq")
             {
@@ -231,7 +229,7 @@ void MyAlgorithm::loadTopo(){
                 latitude, //latitude
                 longitude, //longitude
                 m_cfg.MemCap, //mem
-                m_cfg.cpuFreq,
+                m_cfg.cpuFreq, //cpu frequency of the node
             };
 
             m_topo.add(nodeID, f);
@@ -584,7 +582,7 @@ void MyAlgorithm::placeToNeighbour(Request &r, Function function, int index, int
 
 bool MyAlgorithm::deployToNeighbour(DistSlice ds, Request &r){
     NS_LOG_FUNCTION(this);
-    
+    NS_LOG_ERROR("place to neighbour");
     bool succFlag = false;
    
     //ingore the first node, it is the current node.
@@ -594,7 +592,12 @@ bool MyAlgorithm::deployToNeighbour(DistSlice ds, Request &r){
 
         float instanCost = getInstanCost( nodeID , r.function.type);
 
+        // NS_LOG_ERROR("DISTANCE is " << ds.vec[j].distance);
+
+        // NS_LOG_ERROR("Commcost is " << ds.vec[j].distance * m_cfg.CommCostPara);
+
         if(ds.vec[j].distance * m_cfg.CommCostPara < instanCost){
+
 
             int index = -1;
 
@@ -648,7 +651,7 @@ void MyAlgorithm::createToCurrent(Request &r){
 
                 m_topo.setRecency(r.ingress.id, r.function.type, (float)r.arriveTime );
 
-                m_topo.update("minus", r.ingress.id, f.size);
+                m_topo.update("minus", r.ingress.id, r.function.size);
 
                 r.update(r.function, r.ingress, true);
 
@@ -868,6 +871,7 @@ float MyAlgorithm::getCPU(int phyNodeID){
     PhyNode p = m_topo.get(phyNodeID);
     if(p.id == 0){
         //cannot find this one
+        NS_LOG_ERROR("Cannot find the node 0");
         return 0;
     }else{
         return p.cpuFreq;
@@ -885,6 +889,10 @@ float MyAlgorithm::getInstanCost(int phyNodeID, int funcType){
         return 0;
     }
 
+    if(instanCost == 0){
+        NS_LOG_INFO("instan cost is 0");
+    }
+
     return instanCost;
 }
 //get the running cost
@@ -894,11 +902,16 @@ float MyAlgorithm::getRunCost(int phyNodeID, int funcType){
     int size = getContainerSize(funcType);
 
     float runCost = (float)size*cpuFreq*m_cfg.Alpha;
-
-    if(cpuFreq == 0){
-        return 0;
+    
+    if(size == 0){
+        NS_LOG_INFO("run cost size is 0");
     }
-
+    else if(cpuFreq == 0){
+        NS_LOG_INFO("run cost cpuFreq is 0");
+    }
+    else if(m_cfg.Alpha == 0){
+        NS_LOG_INFO("run cost Alpha is 0");
+    }
     return runCost;
 }
 
@@ -937,9 +950,11 @@ void MyAlgorithm::printResult(std::string filename){
 
                 result.push_back(float((*it).function.type));
 
-                float dist = distance((*it).ingress.id, (*it).deployNode.id)/1000;
+                float dist = distance((*it).ingress.id, (*it).deployNode.id);
 
                 commCost = dist * m_cfg.CommCostPara;
+
+                // NS_LOG_ERROR(" dist " << dist);
 
                 totalCommCost += commCost;
 
@@ -987,9 +1002,9 @@ void MyAlgorithm::printResult(std::string filename){
     numbers.push_back(coldstartfreq);
     avg_cost = float(avg_cost)/float(m_served_req_num);
     
-    numbers.push_back(totalCommCost/m_served_req_num);
-    numbers.push_back(totalInstanCost/m_served_req_num);
-    numbers.push_back(totalRunCost/m_served_req_num);
+    numbers.push_back(totalCommCost/float(m_served_req_num));
+    numbers.push_back(totalInstanCost/float(m_served_req_num));
+    numbers.push_back(totalRunCost/float(m_served_req_num));
 
     numbers.push_back(avg_cost);
     write_vector_file(filename, numbers);
@@ -1141,11 +1156,9 @@ void MyAlgorithm::scheduleRequests(float beta_input, float reduFactor_input){
     reducefactor.erase(beta.find_last_not_of('.')+ 1, std::string::npos);
     std::string filename = "result/my-result-"+ beta +"-" + reducefactor+ ".csv";
     write_time(filename);
-    printResult_no_1(filename);
+    // printResult_no_1(filename);
     printResult(filename);
     //end output data
-    
-    //TODO: Traffic and record result
 
     
     NS_LOG_INFO("Total Cold start Num served<< " << m_cold_req_num);
