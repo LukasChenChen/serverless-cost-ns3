@@ -36,7 +36,7 @@ namespace ns3 {
     // int inter_latency, intra_latency, inter_bw, intra_bw, domain_num, processing_cap;
 
     std::string TopoName, RequestFile;
-    float CommCostPara, MemCap, Beta, ReduFactor, Alpha;
+    float CommCostPara, MemCap, Beta, ReduFactor, Alpha, cpuFreq;
     int NodeNum, SlotNum;
 
     NS_LOG_INFO("-----read config-----");
@@ -95,12 +95,21 @@ namespace ns3 {
             {
                 ReduFactor = stof(line.substr(pos+1));
                 std::cout<< "ReduFactor " << ReduFactor << std::endl;
-                break;
             }
             else if (tmp_key == "Alpha")
             {
                 Alpha = stof(line.substr(pos+1));
                 std::cout<< "Alpha " << Alpha << std::endl;
+            }
+            else if (tmp_key == "Alpha")
+            {
+                Alpha = stof(line.substr(pos+1));
+                std::cout<< "Alpha " << Alpha << std::endl;
+            }
+            else if (tmp_key == "cpuFreq")
+            {
+                cpuFreq = stof(line.substr(pos+1));
+                std::cout<< "cpuFreq " << cpuFreq << std::endl;
                 break;
             }
            
@@ -125,6 +134,7 @@ namespace ns3 {
     m_cfg.SlotNum =SlotNum;
     m_cfg.ReduFactor =ReduFactor;
     m_cfg.Alpha =Alpha;
+    m_cfg.cpuFreq = cpuFreq;
     
     return true;
 
@@ -212,6 +222,7 @@ void Lru::loadTopo(){
                 latitude, //latitude
                 longitude, //longitude
                 m_cfg.MemCap, //mem
+                m_cfg.cpuFreq, //cpu frequency of the node
             };
 
             m_topo.add(nodeID, f);
@@ -791,12 +802,39 @@ void Lru::init(){
     m_req_count = 0; //count to create request
 }
 
+//get the running cost
+float Lru::getRunCost(int phyNodeID, int funcType){
+    float cpuFreq = getCPU(phyNodeID);
+
+    int size = getContainerSize(funcType);
+
+    float runCost = (float)size*cpuFreq*m_cfg.Alpha;
+    
+    if(size == 0){
+        NS_LOG_INFO("run cost size is 0");
+    }
+    else if(cpuFreq == 0){
+        NS_LOG_INFO("run cost cpuFreq is 0");
+    }
+    else if(m_cfg.Alpha == 0){
+        NS_LOG_INFO("run cost Alpha is 0");
+    }
+    return runCost;
+}
+
 void Lru::printResult(std::string filename){
     NS_LOG_FUNCTION(this);
     //result [time slot, id, type, linkdelay, processingdelay, coldstartdelay, iscoldstart, total delay]
     std::vector<float> result;
-    float totalDelay = 0;
-    float avg_delay = 0;
+    float singleCost = 0; // total cost for a request
+    float avg_cost = 0;
+
+    float instanCost = 0;
+    float runCost = 0;
+    float commCost = 0;
+    float totalCommCost = 0;
+    float totalInstanCost = 0;
+    float totalRunCost = 0;
 
 
     for(int i=1; i<= m_request_map.size(); i++){
@@ -819,21 +857,31 @@ void Lru::printResult(std::string filename){
 
                 result.push_back(float((*it).function.type));
 
-                float linkDelay = distance((*it).ingress.id, (*it).deployNode.id)/1000;
+                float dist = distance((*it).ingress.id, (*it).deployNode.id);
 
-                result.push_back(linkDelay);
+                commCost = dist * m_cfg.CommCostPara;
 
-                (*it).calcLinkDelay(linkDelay);
+                // NS_LOG_ERROR(" dist " << dist);
 
-                totalDelay += totalDelay;
-                //conver ms to s
-                result.push_back((*it).function.processingTime/1000);
-                totalDelay += (*it).function.processingTime/1000;
+                totalCommCost += commCost;
+
+                result.push_back(commCost);
+
+                singleCost += commCost;
+
+                runCost = getRunCost((*it).deployNode.id, (*it).function.type);
+                result.push_back(runCost);
+                singleCost += runCost;
+
+                totalRunCost += runCost;
 
                 if((*it).isColdStart == true){
-                    result.push_back((*it).function.coldStartTime);
+                    instanCost = getInstanCost((*it).deployNode.id, (*it).function.type);
+                    result.push_back(instanCost);
                     result.push_back(1.0);
-                    totalDelay += (*it).function.coldStartTime;
+                    singleCost += instanCost;
+
+                    totalInstanCost += instanCost;
 
                     m_cold_req_num++;
 
@@ -842,11 +890,11 @@ void Lru::printResult(std::string filename){
                     result.push_back(0.0);
                     result.push_back(0.0);
                 }
-                result.push_back(totalDelay);
-                avg_delay += totalDelay;
+                result.push_back(singleCost);
+                avg_cost += singleCost;
                 write_vector_file(filename, result);
                 result.clear();
-                totalDelay = 0;
+                singleCost = 0;//total cost for one request
             }
         }
     }//end for
@@ -859,8 +907,13 @@ void Lru::printResult(std::string filename){
     numbers.push_back(float(m_total_req_num));
     float coldstartfreq = float(m_cold_req_num)/float(m_served_req_num);
     numbers.push_back(coldstartfreq);
-    avg_delay = float(avg_delay)/float(m_served_req_num);
-    numbers.push_back(avg_delay);
+    avg_cost = float(avg_cost)/float(m_served_req_num);
+    
+    numbers.push_back(totalCommCost/float(m_served_req_num));
+    numbers.push_back(totalInstanCost/float(m_served_req_num));
+    numbers.push_back(totalRunCost/float(m_served_req_num));
+
+    numbers.push_back(avg_cost);
     write_vector_file(filename, numbers);
     
 
@@ -903,7 +956,7 @@ void Lru::printResult_no_1(std::string filename){
 
                 result.push_back(float((*it).function.type));
 
-                float linkDelay = distance((*it).ingress.id, (*it).deployNode.id)/1000;
+                float linkDelay = distance((*it).ingress.id, (*it).deployNode.id);
 
                 result.push_back(linkDelay);
 
@@ -1010,7 +1063,7 @@ void Lru::scheduleRequests(float beta_input, float reduFactor_input){
     reducefactor.erase(beta.find_last_not_of('.')+ 1, std::string::npos);
     std::string filename = "result/lru-"+ beta +"-" + reducefactor+ ".csv";
     write_time(filename);
-    printResult_no_1(filename);
+    // printResult_no_1(filename);
     printResult(filename);
     //end output data
 
