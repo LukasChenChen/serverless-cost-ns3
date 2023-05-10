@@ -2,7 +2,7 @@
 #define OPERATION_H
 
 #include "ns3/core-module.h"
-
+#include "type.h"
 using namespace ns3;
 
 namespace ns3{
@@ -13,6 +13,8 @@ void write_vector_file(std::string filename, std::vector<float> data);
 void write_time(std::string filename);
 
 void write_result_title(std::string filename);
+
+void write_parameter(std::string filename, ServerlessConfig cfg);
 
 } //end namespace ns3
 

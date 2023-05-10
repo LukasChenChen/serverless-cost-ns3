@@ -11,6 +11,7 @@
 #include <ctime>   // localtime
 #include <iomanip> // put_time
 #include <time.h>
+// #include "type.h"
 namespace ns3{
 
 float CalcGPSDistance(float latitud1, float longitud1, float latitud2, float longitud2){
@@ -81,6 +82,77 @@ void write_vector_file(std::string filename, std::vector<float> data = std::vect
             }
         }
         outfile<<std::endl;
+        
+        outfile.close();
+        
+    }
+    else
+    {
+       std::cout<< "failes to open file " << filename << std::endl;
+    }
+}
+
+//write the parameters of config
+void write_parameter(std::string filename, ns3::ServerlessConfig cfg)
+{
+    // std::string filename = "result/my_result.csv";
+    std::ofstream outfile;
+
+    outfile.open(filename, std::ofstream::app);//append mode
+
+    std::vector<float> data;
+
+    data.push_back(cfg.CommCostPara);
+    data.push_back(cfg.MemCap);
+    data.push_back(float(cfg.NodeNum));
+    data.push_back(cfg.Beta);
+    data.push_back(float(cfg.SlotNum));
+    data.push_back(cfg.ReduFactor);
+    data.push_back(cfg.Alpha);
+    data.push_back(cfg.cpuFreq);
+
+    if (outfile.is_open())
+
+    {  
+        outfile <<"Topo name " <<"," <<cfg.TopoName << std::endl;
+        outfile <<"Request file " << "," <<cfg.RequestFile << std::endl;
+
+        int count = 1;
+        for(auto it = data.begin(); it != data.end(); it++)
+        {   
+
+            switch(count){
+                case 1:
+                     outfile << "CommCostPara" << ",";
+                     break;
+                case 2:
+                     outfile << "MemCap" << ",";
+                     break;
+                case 3:
+                     outfile << "NodeNum" << ",";
+                     break;
+                case 4:
+                     outfile << "Beta" << ",";
+                     break;
+                case 5:
+                     outfile << "SlotNum" << ",";
+                     break;
+                case 6:
+                     outfile << "ReduFactor" << ",";
+                     break;
+                case 7:
+                     outfile << "Alpha" << ",";
+                     break;
+                case 8:
+                     outfile << "cpuFreq" << ",";
+                     break;
+                     
+            }
+
+            outfile << *it <<std::endl;
+            count++;
+        }
+        // outfile<<std::endl;
         
         outfile.close();
         

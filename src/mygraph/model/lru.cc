@@ -1063,6 +1063,7 @@ void Lru::scheduleRequests(float beta_input, float reduFactor_input){
     reducefactor.erase(beta.find_last_not_of('.')+ 1, std::string::npos);
     std::string filename = "result/lru-"+ beta +"-" + reducefactor+ ".csv";
     write_time(filename);
+    write_parameter(filename, m_cfg);
     // printResult_no_1(filename);
     printResult(filename);
     //end output data
