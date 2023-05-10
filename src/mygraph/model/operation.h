@@ -16,6 +16,7 @@ void write_result_title(std::string filename);
 
 void write_parameter(std::string filename, ServerlessConfig cfg);
 
+void print_parameter(ns3::ServerlessConfig cfg);
 } //end namespace ns3
 
 #endif /* OPERATION_H */

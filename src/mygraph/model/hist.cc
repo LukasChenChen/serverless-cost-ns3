@@ -62,53 +62,53 @@ namespace ns3 {
             if (tmp_key == "TopoName")
             {
                 TopoName = line.substr(pos+1);
-                std::cout<< "TopoName " << TopoName << std::endl;
+                // std::cout<< "TopoName " << TopoName << std::endl;
             }
             else if (tmp_key == "RequestFile")
             {
                 RequestFile = line.substr(pos+1);
-                std::cout<< "RequestFile " << RequestFile << std::endl;
+                // std::cout<< "RequestFile " << RequestFile << std::endl;
             }
             else if (tmp_key == "CommCostPara")
             {
                 CommCostPara = stof(line.substr(pos+1));
-                std::cout<< "CommCostPara " << CommCostPara << std::endl;
+                // std::cout<< "CommCostPara " << CommCostPara << std::endl;
             }
             else if (tmp_key == "MemCap")
             {
                 MemCap = stof(line.substr(pos+1));
-                std::cout<< "MemCap " << MemCap << std::endl;
+                // std::cout<< "MemCap " << MemCap << std::endl;
             }
             else if (tmp_key == "NodeNum")
             {
                 NodeNum = stoi(line.substr(pos+1));
-                std::cout<< "NodeNum " << NodeNum << std::endl;
+                // std::cout<< "NodeNum " << NodeNum << std::endl;
             }
             else if (tmp_key == "Beta")
             {
                 Beta = stof(line.substr(pos+1));
-                std::cout<< "Beta " << Beta << std::endl;
+                // std::cout<< "Beta " << Beta << std::endl;
             }
             else if (tmp_key == "SlotNum")
             {
                 SlotNum = stoi(line.substr(pos+1));
-                std::cout<< "SlotNum " << SlotNum << std::endl;
+                // std::cout<< "SlotNum " << SlotNum << std::endl;
             }
             else if (tmp_key == "ReduFactor")
             {
                 ReduFactor = stof(line.substr(pos+1));
-                std::cout<< "ReduFactor " << ReduFactor << std::endl;
+                // std::cout<< "ReduFactor " << ReduFactor << std::endl;
                 
             }
              else if (tmp_key == "Alpha")
             {
                 Alpha = stof(line.substr(pos+1));
-                std::cout<< "Alpha " << Alpha << std::endl;
+                // std::cout<< "Alpha " << Alpha << std::endl;
             }
             else if (tmp_key == "cpuFreq")
             {
                 cpuFreq = stof(line.substr(pos+1));
-                std::cout<< "cpuFreq " << cpuFreq << std::endl;
+                // std::cout<< "cpuFreq " << cpuFreq << std::endl;
                 break;
             }
            
@@ -1060,6 +1060,8 @@ void Hist::scheduleRequests(float beta_input, float reduFactor_input){
 
     m_cfg.Beta = beta_input;
     m_cfg.ReduFactor = reduFactor_input;
+
+    print_parameter(m_cfg);
 
     loadTopo();
     init();

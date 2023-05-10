@@ -164,4 +164,27 @@ void write_parameter(std::string filename, ns3::ServerlessConfig cfg)
 }
 
 
+void print_parameter(ns3::ServerlessConfig cfg){
+   std::cout <<"------Print config----" << std::endl;
+
+   std::cout << "TopoName " << cfg.TopoName << std::endl;
+
+   std::cout << "RequestFile "<<cfg.RequestFile << std::endl;
+
+   std::cout << "CommCostPara "<<cfg.CommCostPara << std::endl;
+
+   std::cout << "MemCap "<< cfg.MemCap << std::endl;
+   std::cout << "NodeNum "<<cfg.NodeNum << std::endl;
+   std::cout << "Beta " << cfg.Beta << std::endl;
+   std::cout << "SlotNum "<< cfg.SlotNum << std::endl;
+
+   std::cout << "ReduFactor " << cfg.ReduFactor << std::endl;
+
+   std::cout << "Alpha " << cfg.Alpha << std::endl;
+   std::cout << "cpuFreq " << cfg.cpuFreq << std::endl;
+
+
+
+}
+
 }//end ns3 namespace
