@@ -66,7 +66,7 @@ public:
 
   float getProb(int nodeID, int funcType);
 
-  int getEvictedContainer(int nodeID);
+  int getEvictedContainer(int nodeID, int reqFuncType);
 
   float getCPU(int phyNodeID);
 

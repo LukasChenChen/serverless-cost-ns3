@@ -629,7 +629,11 @@ void MyAlgorithm::createToCurrent(Request &r){
         while (count < 1000) {
             count++;
             //get a container to be evicted
-            int funcType = getEvictedContainer(r.ingress.id);
+            int funcType = getEvictedContainer(r.ingress.id, r.function.type);
+            //if same type, do not create
+            if(funcType == r.function.type || funcType == 0){
+                return;
+            }
 
             succFlag = m_cm.deleteProb(r.ingress.id, funcType, m_topo);
 
@@ -762,28 +766,42 @@ int MyAlgorithm::getContainerSize(int funcType){
 // get the probability of type n container in edge node p
 float MyAlgorithm::getProb(int nodeID, int funcType){
     PhyNode p = m_topo.get(nodeID);
-
+    float instanCost = getInstanCost(nodeID, funcType);
     float freq   = p.getFreq(funcType);
     float recen = p.getRecency(funcType); // the last  time a function is called
 
     int size = getContainerSize(funcType);
 
-    if(freq == 0 || recen == 0 || size == 0){
-        NS_LOG_ERROR("cannot find prob for funcType " << funcType << "at node "<< nodeID);
+    if(freq == 0){
+        NS_LOG_ERROR("cannot find freq for funcType " << funcType << "at node "<< nodeID);
         return 0;
     }
+    if( recen == 0){
+        NS_LOG_ERROR("cannot find recen for funcType " << funcType << "at node "<< nodeID);
+        return 0;
+    }
+    if( size == 0){
+        NS_LOG_ERROR("cannot find size for funcType " << funcType << "at node "<< nodeID);
+        return 0;
+    }
+    //change the unit from MB, this will reduce the impact of size in the probability caculation
+    // return (float)size/(freq*instanCost+recen);
 
     return (float)size/(freq+recen);
 }
+}
 
 // get the contaner type to be evicted
-int MyAlgorithm::getEvictedContainer(int nodeID){
+int MyAlgorithm::getEvictedContainer(int nodeID, int reqFuncType){
     NS_LOG_FUNCTION(this);
     //get all the probabilities, roll a number to decide
     //function level
+    float threshold = getProb(nodeID, reqFuncType);
 
     //create a map to store probability.
     std::map<int, float> probMap;
+
+    ProbPairVec probPV;
 
     float total_prob = 0;
 
@@ -793,22 +811,34 @@ int MyAlgorithm::getEvictedContainer(int nodeID){
         probMap.insert({funcType, prob});
         total_prob += prob;
     }
+
+    threshold = threshold/total_prob; // convert to probability
     //calculate the probability
     for(auto it = probMap.begin(); it != probMap.end(); it++){
         int funcType = it->first;
         float prob = it->second;
         prob = prob/total_prob;
         probMap[funcType] = prob;
+        //only include those probabilities that are larger
+        if(prob > threshold){
+            ProbPair pp;
+            pp.first = funcType;
+            pp.second = prob;
+            probPV.push_back(pp);
+        }
     }
 
+    probPV.sortVec();
 
     //random a number between 0 - 100;
     int val = rand() % 100;
     NS_LOG_INFO("random number is " << val);
     float accum_prob = 0;
-    for(auto it = probMap.begin(); it != probMap.end(); it++){
-        int funcType = it->first;
-        float prob = it->second;
+
+    for(auto it = probPV.probPair_v.begin(); it != probPV.probPair_v.end(); it++){
+        int funcType = (*it).first;
+        float prob = (*it).second;
+        NS_LOG_ERROR("test prob " << prob);
         //see which interval is the probablity
         accum_prob += prob;
         if((float)val < (accum_prob * 100)){
@@ -816,6 +846,16 @@ int MyAlgorithm::getEvictedContainer(int nodeID){
             return funcType;
         }
     }
+    // for(auto it = probMap.begin(); it != probMap.end(); it++){
+    //     int funcType = it->first;
+    //     float prob = it->second;
+    //     //see which interval is the probablity
+    //     accum_prob += prob;
+    //     if((float)val < (accum_prob * 100)){
+    //         NS_LOG_INFO("val " << val << " prob " << accum_prob*100 << " evict type " << funcType);
+    //         return funcType;
+    //     }
+    // }
     NS_LOG_ERROR("cannot find a function to evict");
     return 0;
     

@@ -67,6 +67,10 @@ struct PhyNode{
             return 1;
         }else{
             float freq = funcFreq[funcType];
+            // if(freq == 0){
+            //     funcFreq[funcType]=1;
+            //     return 1;
+            // }
             return freq;
         }
     }
@@ -77,12 +81,17 @@ struct PhyNode{
             return 1;
         }else{
             float recen = recency[funcType];
+            //  if(recen == 0){
+            //     recency[funcType] =1;
+            //     return 1;
+            // }
             return recen;
         }
     }
 
     void setRecency(int funcType, float recen){
         if(recency.find(funcType) == recency.end()){
+            recency.insert({funcType, recen});
             return;
         }else{
             recency[funcType] = recen;
@@ -92,6 +101,7 @@ struct PhyNode{
 
     void setFreq(int funcType, float freq){
         if(funcFreq.find(funcType) == funcFreq.end()){
+            funcFreq.insert({funcType, freq});
             return;
         }else{
             funcFreq[funcType] = freq;
@@ -101,6 +111,7 @@ struct PhyNode{
 
     void addFreq(int funcType){
         if(funcFreq.find(funcType) == funcFreq.end()){
+            funcFreq.insert({funcType, 1});
             return;
         }else{
             funcFreq[funcType] += 1;
@@ -769,6 +780,20 @@ struct ActiveFunctions {
 };
 
 
+typedef std::pair<int, float> ProbPair; //<funcType, probability>
+
+
+struct ProbPairVec{
+    std::vector<ProbPair> probPair_v;
+    //ascending order
+    void sortVec(){
+        std::sort(probPair_v.begin(), probPair_v.end(), [](ProbPair &a, ProbPair &b){return a.second<b.second;});
+    }
+
+    void push_back(ProbPair pp){
+        probPair_v.push_back(pp);
+    }
+};
 
 
 } //end ns3
