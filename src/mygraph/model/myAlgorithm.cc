@@ -787,9 +787,9 @@ float MyAlgorithm::getProb(int nodeID, int funcType){
     //change the unit from MB, this will reduce the impact of size in the probability caculation
     // return (float)size/(freq*instanCost+recen);
 
-    return (float)size/(freq+recen);
+    return (float)size/(freq+recen)/1000;
 }
-}
+
 
 // get the contaner type to be evicted
 int MyAlgorithm::getEvictedContainer(int nodeID, int reqFuncType){
@@ -843,6 +843,7 @@ int MyAlgorithm::getEvictedContainer(int nodeID, int reqFuncType){
         accum_prob += prob;
         if((float)val < (accum_prob * 100)){
             NS_LOG_INFO("val " << val << " prob " << accum_prob*100 << " evict type " << funcType);
+            NS_LOG_ERROR("evict type " << funcType);
             return funcType;
         }
     }
@@ -856,7 +857,7 @@ int MyAlgorithm::getEvictedContainer(int nodeID, int reqFuncType){
     //         return funcType;
     //     }
     // }
-    NS_LOG_ERROR("cannot find a function to evict");
+    NS_LOG_ERROR("No need to evict");
     return 0;
     
 }
@@ -1213,5 +1214,6 @@ void MyAlgorithm::scheduleRequests(float beta_input, float reduFactor_input){
 
     // genTraffic(1, 30);
 }
+
 
 }//end ns3
