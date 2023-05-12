@@ -67,10 +67,10 @@ struct PhyNode{
             return 1;
         }else{
             float freq = funcFreq[funcType];
-            // if(freq == 0){
-            //     funcFreq[funcType]=1;
-            //     return 1;
-            // }
+            if(!(freq >0)){
+                funcFreq.insert({funcType, 1});
+                return 1;
+            }
             return freq;
         }
     }
@@ -81,10 +81,10 @@ struct PhyNode{
             return 1;
         }else{
             float recen = recency[funcType];
-            //  if(recen == 0){
-            //     recency[funcType] =1;
-            //     return 1;
-            // }
+             if(!(recen > 0)){
+                recency.insert({funcType,1});
+                return 1;
+            }
             return recen;
         }
     }

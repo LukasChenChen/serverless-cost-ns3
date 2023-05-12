@@ -23,6 +23,7 @@ connvert distance to communication cost
 #include "ns3/operation.h"
 #include "ns3/network_controller.h"
 #include <time.h>
+#include <cmath>
 
 namespace ns3 {
   NS_LOG_COMPONENT_DEFINE ("MyAlgorithm");
@@ -784,6 +785,32 @@ float MyAlgorithm::getProb(int nodeID, int funcType){
         NS_LOG_ERROR("cannot find size for funcType " << funcType << "at node "<< nodeID);
         return 0;
     }
+
+    if(std::isnan(freq)){
+        NS_LOG_ERROR("freq is nan at node " << funcType << "at node "<< nodeID);
+        return 0;
+    }
+    if( std::isnan(recen)){
+        NS_LOG_ERROR("recen is nan at node  " << funcType << "at node "<< nodeID);
+        return 0;
+    }
+    if( std::isnan(size)){
+        NS_LOG_ERROR("size is nan at node  " << funcType << "at node "<< nodeID);
+        return 0;
+    }
+
+     if(!(freq < 100000 || freq > 0)){
+        NS_LOG_ERROR("freq is" << freq <<" , " <<funcType << "at node "<< nodeID);
+        return 0;
+    }
+    if( !(recen < 100000 || recen > 0)){
+        NS_LOG_ERROR("recen is   "<< recen <<" , " << funcType << "at node "<< nodeID);
+        return 0;
+    }
+    if( !(size < 100000 || size > 0)){
+        NS_LOG_ERROR("size "<< size << " , "<< funcType << "at node "<< nodeID);
+        return 0;
+    }
     //change the unit from MB, this will reduce the impact of size in the probability caculation
     // return (float)size/(freq*instanCost+recen);
 
@@ -811,7 +838,7 @@ int MyAlgorithm::getEvictedContainer(int nodeID, int reqFuncType){
         probMap.insert({funcType, prob});
         total_prob += prob;
     }
-
+    
     threshold = threshold/total_prob; // convert to probability
     //calculate the probability
     for(auto it = probMap.begin(); it != probMap.end(); it++){
@@ -832,18 +859,18 @@ int MyAlgorithm::getEvictedContainer(int nodeID, int reqFuncType){
 
     //random a number between 0 - 100;
     int val = rand() % 100;
-    NS_LOG_INFO("random number is " << val);
+    NS_LOG_ERROR("random number is " << val);
     float accum_prob = 0;
-
+    NS_LOG_INFO("threhold is " << threshold);
     for(auto it = probPV.probPair_v.begin(); it != probPV.probPair_v.end(); it++){
         int funcType = (*it).first;
         float prob = (*it).second;
-        NS_LOG_ERROR("test prob " << prob);
+        NS_LOG_INFO("test prob " << prob << "type " << funcType);
         //see which interval is the probablity
         accum_prob += prob;
         if((float)val < (accum_prob * 100)){
             NS_LOG_INFO("val " << val << " prob " << accum_prob*100 << " evict type " << funcType);
-            NS_LOG_ERROR("evict type " << funcType);
+            NS_LOG_INFO("evict type " << funcType);
             return funcType;
         }
     }
