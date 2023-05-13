@@ -461,6 +461,20 @@ struct Topology {
 
        m[phyNodeID] = p;
    }
+   //add freq tp all phynodes
+   void addFreqAll(int funcType){ 
+        for(auto it = m.begin(); it != m.end(); it++){
+            it->second.addFreq(funcType);
+        }
+
+   }
+
+   void setRecencyAll( int funcType, float recen){
+
+       for(auto it = m.begin(); it != m.end(); it++){
+            it->second.setRecency(funcType, recen);
+        }
+   }
 };
 
 struct Cache{
@@ -503,14 +517,15 @@ struct Cache{
         std::sort(functionList.begin(), functionList.end(), [](Function &a, Function &b){return a.lastUseTime<b.lastUseTime;});
     }
     //remove a particular type 
-    void removeType(int funcType){
+    bool removeType(int funcType){
 
         for(auto it = functionList.begin(); it != functionList.end(); it++){
             if((*it).type == funcType){
                 functionList.erase(it);
-                return;
+                return true;
             }
         }
+        return false;
 
     }
 };
@@ -555,6 +570,7 @@ struct CacheMap {
             return;
         }else{
             it->second.remove(index, m_functionfreq);
+
         }
        
         //change mem
@@ -642,7 +658,7 @@ struct CacheMap {
         }
         
     }
-
+    //hist and cast
     float getLowestLifeTime(int phyNodeID){
         Cache c = get(phyNodeID);
 
@@ -683,7 +699,10 @@ struct CacheMap {
         Cache c = get(phyNodeID);
 
         if(c.size() > 0){
-            c.removeType(funcType);
+            //cannot find the type
+            if (c.removeType(funcType) ==false){
+                return false;
+            }
 
             caches[phyNodeID] = c;
 

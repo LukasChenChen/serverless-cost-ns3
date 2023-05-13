@@ -13,7 +13,7 @@
 
 using namespace ns3;
 
-NS_LOG_COMPONENT_DEFINE ("test-my");
+NS_LOG_COMPONENT_DEFINE ("create-requests");
 
 //<node_id, reqNum>
 void writeFile(std::string fileName, std::map<int, int> req_map){

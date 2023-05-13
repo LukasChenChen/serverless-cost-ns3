@@ -74,6 +74,8 @@ public:
 
   float getRunCost(int phyNodeID, int funcType);
 
+  int getTopProbContainer(int nodeID, int reqFuncType);
+
   ServerlessConfig m_cfg;
 
   

@@ -564,9 +564,13 @@ void MyAlgorithm::placeToNeighbour(Request &r, Function function, int index, int
     //put the function in active list
     m_afs.add(function, phyNodeID, m_functionfreq, m_clock);
 
-    m_topo.addFreq(phyNodeID, function.type);
+    // m_topo.addFreq(phyNodeID, function.type);
 
-    m_topo.setRecency(phyNodeID, function.type, (float)r.arriveTime );
+    m_topo.addFreqAll(function.type);
+
+    // m_topo.setRecency(phyNodeID, function.type, (float)r.arriveTime );
+
+    m_topo.setRecencyAll( function.type, (float)r.arriveTime );
 
     //remove from cacheMap
     m_cm.remove(phyNodeID, index, m_functionfreq);
@@ -631,8 +635,11 @@ void MyAlgorithm::createToCurrent(Request &r){
             count++;
             //get a container to be evicted
             int funcType = getEvictedContainer(r.ingress.id, r.function.type);
+
+            // int funcType = getTopProbContainer(r.ingress.id, r.function.type);
             //if same type, do not create
             if(funcType == r.function.type || funcType == 0){
+                
                 return;
             }
 
@@ -642,8 +649,6 @@ void MyAlgorithm::createToCurrent(Request &r){
 
             if(succFlag == true){
 
-            
-           
                 m_topo.update("add", r.ingress.id, functionSize);
             }
             
@@ -656,9 +661,13 @@ void MyAlgorithm::createToCurrent(Request &r){
 
                 m_afs.add(r.function, r.ingress.id, m_functionfreq, m_clock);
 
-                m_topo.addFreq(r.ingress.id, r.function.type);
+                // m_topo.addFreq(r.ingress.id, r.function.type);
 
-                m_topo.setRecency(r.ingress.id, r.function.type, (float)r.arriveTime );
+                m_topo.addFreqAll(r.function.type);
+
+                // m_topo.setRecency(r.ingress.id, r.function.type, (float)r.arriveTime );
+
+                m_topo.setRecencyAll(r.function.type, (float)r.arriveTime );
 
                 m_topo.update("minus", r.ingress.id, r.function.size);
 
@@ -684,9 +693,13 @@ void MyAlgorithm::createToCurrent(Request &r){
         
         m_afs.add(r.function, r.ingress.id, m_functionfreq, m_clock);
 
-        m_topo.addFreq(r.ingress.id, r.function.type);
+        // m_topo.addFreq(r.ingress.id, r.function.type);
 
-        m_topo.setRecency(r.ingress.id, r.function.type, (float)r.arriveTime );
+        m_topo.addFreqAll(r.function.type);
+
+        // m_topo.setRecency(r.ingress.id, r.function.type, (float)r.arriveTime );
+
+        m_topo.setRecencyAll(r.function.type, (float)r.arriveTime );
 
         m_topo.update("minus", r.ingress.id, r.function.size);
 
@@ -703,9 +716,13 @@ void MyAlgorithm::placeToCurrent(Request &r, Function f, int index){
 
     m_afs.add(f, r.ingress.id, m_functionfreq, m_clock);
 
-    m_topo.addFreq(r.ingress.id, f.type);
+    // m_topo.addFreq(r.ingress.id, f.type);
 
-    m_topo.setRecency(r.ingress.id, f.type, (float)r.arriveTime );
+    m_topo.addFreqAll(f.type);
+
+    // m_topo.setRecency(r.ingress.id, f.type, (float)r.arriveTime );
+
+    m_topo.setRecencyAll( f.type, (float)r.arriveTime );
 
     m_cm.remove(r.ingress.id, index, m_functionfreq);
 
@@ -887,6 +904,40 @@ int MyAlgorithm::getEvictedContainer(int nodeID, int reqFuncType){
     NS_LOG_ERROR("No need to evict");
     return 0;
     
+}
+//container with largest evict prob
+int MyAlgorithm::getTopProbContainer(int nodeID, int reqFuncType){
+    std::map<int, float> probMap;
+
+    ProbPairVec probPV;
+    float total_prob = 0;
+    for(auto it = m_funcInfoMap.funcMap.begin(); it != m_funcInfoMap.funcMap.end(); it++){
+        int funcType = it->first;
+        float prob = getProb(nodeID, funcType);
+        probMap.insert({funcType, prob});
+        total_prob += prob;
+    }
+
+    for(auto it = probMap.begin(); it != probMap.end(); it++){
+        int funcType = it->first;
+        float prob = it->second;
+        prob = prob/total_prob;
+        probMap[funcType] = prob;
+        //only include those probabilities that are larger
+       
+        ProbPair pp;
+        pp.first = funcType;
+        pp.second = prob;
+        probPV.push_back(pp);
+        
+    }
+
+    probPV.sortVec();
+
+    // probPV.probPair_v.back();
+
+    return probPV.probPair_v.back().first;
+
 }
 
 void MyAlgorithm::deployRequests(){
