@@ -1042,7 +1042,7 @@ float MyAlgorithm::getRunCost(int phyNodeID, int funcType){
     return runCost;
 }
 
-void MyAlgorithm::printResult(std::string filename){
+void MyAlgorithm::printResult(std::string filename, bool verbose){
     NS_LOG_FUNCTION(this);
     //result [time slot, id, type, linkdelay, processingdelay, coldstartdelay, iscoldstart, total delay]
     std::vector<float> result;
@@ -1112,7 +1112,9 @@ void MyAlgorithm::printResult(std::string filename){
                 }
                 result.push_back(singleCost);
                 avg_cost += singleCost;
-                write_vector_file(filename, result);
+                if(verbose == true){
+                    write_vector_file(filename, result);
+                }
                 result.clear();
                 singleCost = 0;//total cost for one request
             }
@@ -1260,11 +1262,12 @@ void MyAlgorithm::genTraffic(int time_slot, int time_slot_num){
 
 }
 
-void MyAlgorithm::scheduleRequests(float beta_input, float reduFactor_input){
+void MyAlgorithm::scheduleRequests(float beta_input, float reduFactor_input, bool verbose, float alpha){
     loadConfig("config/config.txt");
 
     m_cfg.Beta = beta_input;
     m_cfg.ReduFactor = reduFactor_input;
+    m_cfg.Alpha = alpha;
 
     print_parameter(m_cfg);
 
@@ -1288,7 +1291,7 @@ void MyAlgorithm::scheduleRequests(float beta_input, float reduFactor_input){
     write_time(filename);
     write_parameter(filename, m_cfg);
     // printResult_no_1(filename);
-    printResult(filename);
+    printResult(filename, verbose);
     //end output data
 
     

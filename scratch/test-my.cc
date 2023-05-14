@@ -26,11 +26,17 @@ main (int argc, char *argv[])
 
    bool enable_simulation = false;
 
+   bool verbose = false;
+
+   float alpha = 0.05;
+
    cmd.AddValue ("beta", "zipf beta", beta);
 
    cmd.AddValue ("reduFactor", "reduce the number of requests", reduFactor);
 
    cmd.AddValue ("simu", "do simulation", enable_simulation);
+
+   cmd.AddValue ("verbose", "verbose, show the detailed cost", verbose);
 
    cmd.Parse (argc, argv);
 
@@ -41,7 +47,7 @@ main (int argc, char *argv[])
 
    MyAlgorithm ma;
 
-   ma.scheduleRequests(beta, reduFactor);
+   ma.scheduleRequests(beta, reduFactor, verbose, alpha);
    
 
    if(enable_simulation){

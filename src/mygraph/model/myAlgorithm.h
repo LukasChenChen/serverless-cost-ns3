@@ -50,13 +50,13 @@ public:
 
   void deployRequests();
 
-  void scheduleRequests(float beta_input, float reduFactor_input);
+  void scheduleRequests(float beta_input, float reduFactor_input, bool verbose, float alpha);
 
   Function getIdleFunction(int phynodeID, int funcType, int &index);
 
   void updateCache();
 
-  void printResult(std::string filename);
+  void printResult(std::string filename, bool verbose);
 
   void printResult_no_1(std::string filename);
 
