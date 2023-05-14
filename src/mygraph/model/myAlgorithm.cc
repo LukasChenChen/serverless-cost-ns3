@@ -864,12 +864,19 @@ int MyAlgorithm::getEvictedContainer(int nodeID, int reqFuncType){
         prob = prob/total_prob;
         probMap[funcType] = prob;
         //only include those probabilities that are larger
-        if(prob > threshold){
-            ProbPair pp;
-            pp.first = funcType;
-            pp.second = prob;
-            probPV.push_back(pp);
-        }
+        // if(prob > threshold){
+        //     ProbPair pp;
+        //     pp.first = funcType;
+        //     pp.second = prob;
+        //     probPV.push_back(pp);
+        // }
+
+       
+        ProbPair pp;
+        pp.first = funcType;
+        pp.second = prob;
+        probPV.push_back(pp);
+        
     }
 
     probPV.sortVec();
@@ -1124,6 +1131,7 @@ void MyAlgorithm::printResult(std::string filename){
     
     numbers.push_back(totalCommCost/float(m_served_req_num));
     numbers.push_back(totalInstanCost/float(m_served_req_num));
+    numbers.push_back((totalInstanCost+totalCommCost)/float(m_served_req_num));
     numbers.push_back(totalRunCost/float(m_served_req_num));
 
     numbers.push_back(avg_cost);

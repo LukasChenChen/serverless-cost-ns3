@@ -927,6 +927,7 @@ void Hist::printResult(std::string filename){
     
     numbers.push_back(totalCommCost/float(m_served_req_num));
     numbers.push_back(totalInstanCost/float(m_served_req_num));
+    numbers.push_back((totalInstanCost+totalCommCost)/float(m_served_req_num));
     numbers.push_back(totalRunCost/float(m_served_req_num));
 
     numbers.push_back(avg_cost);
