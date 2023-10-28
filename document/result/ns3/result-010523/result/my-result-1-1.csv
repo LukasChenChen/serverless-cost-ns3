@@ -1,0 +1,700 @@
+2023-05-15 19:59:39
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9741,37639,112197,0.258801,0.206258,10.6383,10.8446,3.32854,14.1757
+2023-05-15 19:59:52
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10373,34412,112197,0.301436,0.234486,12.011,12.2454,13.9514,26.1959
+2023-05-15 20:00:22
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9679,40070,112197,0.241552,0.16364,10.105,10.2687,9.72439,19.9944
+2023-05-15 20:00:30
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9962,36176,112197,0.275376,0.218207,11.1739,11.3921,17.1806,28.5709
+2023-05-15 20:03:17
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10471,34744,112197,0.301376,0.220437,12.0036,12.224,6.92082,19.1481
+2023-05-15 21:42:17
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9989,38429,112197,0.259934,0.166415,10.7819,10.9484,10.0489,20.9993
+2023-05-15 21:42:19
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10394,35401,112197,0.293608,0.215711,11.775,11.9907,3.47491,15.4677
+2023-05-15 21:42:32
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10374,36859,112197,0.281451,0.190189,11.2448,11.435,6.67054,18.1097
+2023-05-15 21:42:43
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10136,34146,112197,0.296843,0.237152,11.8858,12.1229,17.4197,29.5409
+2023-05-15 21:42:46
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9910,37597,112197,0.263585,0.174473,10.8276,11.0021,13.3956,24.3994
+2023-05-15 22:56:27
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10428,34879,112197,0.298976,0.221293,11.8884,12.1097,6.92996,19.0431
+2023-05-15 22:56:34
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9912,41282,112197,0.240105,0.126805,10.2133,10.3401,12.9313,23.2754
+2023-05-15 22:56:36
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10428,34879,112197,0.298976,0.221293,11.8884,12.1097,3.46498,15.5767
+2023-05-15 22:56:45
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10545,35398,112197,0.297898,0.20984,11.8796,12.0894,17.3602,29.4466
+2023-05-15 22:57:10
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10420,34317,112197,0.30364,0.229645,12.0521,12.2817,10.4616,22.7464
+2023-05-16 09:49:45
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9692,39867,112197,0.243108,0.157272,10.1681,10.3253,6.53239,16.8632
+2023-05-16 09:49:48
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10375,37690,112197,0.275272,0.171999,11.127,11.299,3.34786,14.65
+2023-05-16 09:49:59
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10255,37695,112197,0.272052,0.168026,11.057,11.225,10.0981,21.3252
+2023-05-16 09:50:20
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9916,39121,112197,0.25347,0.145094,10.5643,10.7094,13.0856,23.7997
+2023-05-16 09:50:38
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10259,33784,112197,0.303664,0.228894,12.121,12.3499,17.4067,29.7542
+2023-05-16 13:27:46
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10198,34030,112197,0.299677,0.239232,11.9942,12.2334,3.48456,15.7202
+2023-05-16 13:27:53
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10018,35553,112197,0.281776,0.221812,11.353,11.5748,6.8828,18.461
+2023-05-16 13:28:16
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9915,40052,112197,0.247553,0.157775,10.2482,10.4059,12.9535,23.3638
+2023-05-16 13:28:37
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10325,34541,112197,0.29892,0.234871,11.8693,12.1042,10.3919,22.4988
+2023-05-16 13:28:53
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9684,39718,112197,0.243819,0.163083,10.2467,10.4098,16.367,26.7758
+2023-05-16 14:28:30
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10221,34224,112197,0.29865,0.231877,11.9797,12.2116,3.4789,15.6925
+2023-05-16 14:28:40
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10055,34974,112197,0.287499,0.225762,11.6171,11.8428,6.95507,18.8007
+2023-05-16 14:28:59
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10403,35151,112197,0.295952,0.213935,11.8036,12.0175,13.9362,25.9518
+2023-05-16 14:29:19
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9875,39758,112197,0.248378,0.147939,10.3595,10.5075,9.8417,20.3507
+2023-05-16 14:29:44
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10256,34103,112197,0.300736,0.238471,12.0194,12.2578,17.5043,29.7599
+2023-05-16 16:40:36
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9860,36790,112197,0.268008,0.211406,10.9121,11.1235,3.38405,14.5096
+2023-05-16 16:41:11
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10141,34058,112197,0.297757,0.235709,11.9279,12.1636,13.9415,26.1042
+2023-05-16 16:41:13
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9782,40059,112197,0.24419,0.159123,10.2353,10.3945,6.53971,16.9397
+2023-05-16 16:41:30
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10256,34162,112197,0.300217,0.234415,11.9947,12.2291,10.4422,22.6741
+2023-05-16 16:41:52
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10517,35023,112197,0.300288,0.218003,11.9002,12.1182,17.3646,29.4803
+2023-05-17 11:00:06
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9472,40900,112197,0.231589,0.146904,9.89598,10.0429,6.50436,16.5531
+2023-05-17 11:00:29
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9921,37255,112197,0.2663,0.193702,10.8836,11.0773,3.39333,14.4736
+2023-05-17 11:00:32
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9985,36922,112197,0.270435,0.192261,11.0365,11.2288,13.4315,24.6625
+2023-05-17 11:00:48
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10042,37425,112197,0.268323,0.184888,10.9572,11.1421,10.1014,21.2458
+2023-05-17 11:01:08
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10156,36838,112197,0.275694,0.190538,11.1212,11.3118,16.8886,28.1982
+2023-05-18 11:03:17
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10212,35316,112197,0.289161,0.211569,11.6783,11.8899,3.45885,15.3506
+2023-05-18 11:03:23
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10349,39051,112197,0.265012,0.151512,10.9025,11.054,6.58256,17.6417
+2023-05-18 11:03:27
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9640,39502,112197,0.244038,0.182811,10.2087,10.3915,9.86417,20.2577
+2023-05-18 11:03:48
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10181,35002,112197,0.290869,0.219288,11.6808,11.9001,13.9314,25.8295
+2023-05-18 11:03:52
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9821,39770,112197,0.246945,0.15751,10.3238,10.4813,16.2962,26.7767
+2023-05-19 10:10:48
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9985,39432,112197,0.253221,0.160137,10.4889,10.649,3.27566,13.9263
+2023-05-19 10:10:54
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10265,34190,112197,0.300234,0.231185,11.9426,12.1738,6.95685,19.1335
+2023-05-19 10:11:11
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+9967,39284,112197,0.253717,0.153737,10.4996,10.6534,9.80402,20.4589
+2023-05-19 10:11:18
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10047,33873,112197,0.296608,0.232179,11.9331,12.1653,13.9453,26.1097
+2023-05-19 10:11:36
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+10339,33867,112197,0.305282,0.230214,12.1198,12.35,17.6061,29.9536

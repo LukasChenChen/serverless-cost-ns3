@@ -1,0 +1,70 @@
+2023-05-15 17:24:34
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,0.5
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+39378,68704,272346,0.573154,0.0760921,21.3624,21.4385,5.98447,27.4093
+2023-05-15 17:25:14
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,0.5
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+39378,68704,272346,0.573154,0.0760921,21.3624,21.4385,2.99224,24.4275
+2023-05-15 17:25:15
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,0.5
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+39378,68704,272346,0.573154,0.0760921,21.3624,21.4385,14.9552,36.3907
+2023-05-15 17:26:00
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,0.5
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+39378,68704,272346,0.573154,0.0760921,21.3624,21.4385,11.9689,33.4138
+2023-05-18 17:16:30
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,0.5
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+39378,68704,272346,0.573154,0.0760921,21.3624,21.4385,8.97128,30.4159
