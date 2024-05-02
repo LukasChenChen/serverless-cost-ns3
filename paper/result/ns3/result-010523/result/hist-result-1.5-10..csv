@@ -1,0 +1,70 @@
+2023-05-15 16:42:03
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1.5
+SlotNum,30
+ReduFactor,10
+Alpha,0.01
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+3380,16148,24180,0.209314,0.242126,9.82023,10.0624,4.08366,14.1461
+2023-05-15 16:42:22
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1.5
+SlotNum,30
+ReduFactor,10
+Alpha,0.02
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+3380,16148,24180,0.209314,0.242126,9.82023,10.0624,8.16732,18.2305
+2023-05-15 16:42:48
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1.5
+SlotNum,30
+ReduFactor,10
+Alpha,0.03
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+3380,16148,24180,0.209314,0.242126,9.82023,10.0624,12.2524,22.3133
+2023-05-15 16:42:49
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1.5
+SlotNum,30
+ReduFactor,10
+Alpha,0.05
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+3380,16148,24180,0.209314,0.242126,9.82023,10.0624,20.42,30.4819
+2023-05-15 16:42:52
+timeslot,id,type,commCost,runCost,InstanCost,iscold,singleCost
+Topo name ,config/site-optus-melbCBD.csv
+Request file ,config/sorted.csv
+CommCostPara,1
+MemCap,10000
+NodeNum,10
+Beta,1.5
+SlotNum,30
+ReduFactor,10
+Alpha,0.04
+cpuFreq,3
+coldNum,servedNum,totalNum,coldfreq,avgcommcost,avginstancost,avgLatenCost,avgruncost,avgcost
+3380,16148,24180,0.209314,0.242126,9.82023,10.0624,16.3346,26.3984
