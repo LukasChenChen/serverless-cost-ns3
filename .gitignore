@@ -1,33 +1,17 @@
-#ignore everything
-*
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
 
-scratch/sfco_result.*
-scratch/dis_result.*
-scratch/*.csv
-scratch/*.txt
-scratch/*.tr
-scratch/*csv*
-scratch/*.xml
-scratch/routing-test.tr
-scratch/*.out
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-
-
-#but not these files
-!src
-!src/mygraph
-!src/mygraph/*
-!src/mygraph/*/*
-!*.sh
-!scratch
-!scratch/*.cc
-!scratch/*request*.txt
-!scratch/*poisson*.csv
-!config
-!config/*
-!.gitignore
-!README.MD
-
-
-
+# Dependency directories (remove the comment below to include it)
+# vendor/
+#dataset in lstm
+lstm/request/*.csv
