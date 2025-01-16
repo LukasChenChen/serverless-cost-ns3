@@ -11,7 +11,7 @@
 
 ## Configure
 > download ns-3 3.29 \
-> CXXFLAGS="-Wno-error" ./waf configure --enable-examples --enable-tests \
+> CXXFLAGS="-Wno-error" ./waf configure --enable-examples --enable-tests
 
 
 ```bibtex
