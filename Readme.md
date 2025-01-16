@@ -14,16 +14,15 @@
 > CXXFLAGS="-Wno-error" ./waf configure --enable-examples --enable-tests
 
 
-  ```bibtex
-    @ARTICLE{10528903,
-  author={Chen, Chen and Herrera, Manuel and Zheng, Ge and Xia, Liqiao and Ling, Zhengyang and Wang, Jiangtao},
-  journal={IEEE Transactions on Services Computing}, 
-  title={Cross-Edge Orchestration of Serverless Functions With Probabilistic Caching}, 
-  year={2024},
-  volume={17},
-  number={5},
-  pages={2139-2150},
-  keywords={Containers;Costs;Edge computing;Heuristic algorithms;Serverless computing;Optimization;Processor scheduling;Edge computing;resource allocation;serverless computing},
-  doi={10.1109/TSC.2024.3399651}}
-
-    ```
+```bibtex
+@ARTICLE{10528903,
+author={Chen, Chen and Herrera, Manuel and Zheng, Ge and Xia, Liqiao and Ling, Zhengyang and Wang, Jiangtao},
+journal={IEEE Transactions on Services Computing}, 
+title={Cross-Edge Orchestration of Serverless Functions With Probabilistic Caching}, 
+year={2024},
+volume={17},
+number={5},
+pages={2139-2150},
+keywords={Containers;Costs;Edge computing;Heuristic algorithms;Serverless computing;Optimization;Processor scheduling;Edge computing;resource allocation;serverless computing},
+doi={10.1109/TSC.2024.3399651}}
+```
